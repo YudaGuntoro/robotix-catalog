@@ -1,0 +1,57 @@
+# Node & package managers
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store
+
+# Next.js build artifacts
+.next
+out
+dist
+.next/cache
+
+# Env files (jangan ikut ke image)
+.env
+.env.*
+!.env.example
+
+# Test & coverage
+coverage
+*.spec.*
+*.test.*
+jest.config.* 
+vitest.config.*
+
+# Editor/OS junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode
+.idea
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker build junk
+docker-compose*.yml
+compose*.yml
+# (opsional) kalau kamu pakai nama Dockerfile non-standar:
+dockerfile.Dockerfile
+
+# Lain-lain yang tidak perlu ke konteks build
+*.md
+*.pdf
+*.ppt*
+*.zip
+*.tar
+*.tar.gz
+
+# Lockfiles lain yang tidak dipakai (opsional, pakai salah satu saja)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
