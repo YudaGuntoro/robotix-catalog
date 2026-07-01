@@ -126,54 +126,71 @@ const RotatingProductHighlight = () => {
   const activeProduct = products[activeIndex] ?? fallbackProduct;
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-slate-100">
-        <div className="absolute left-4 top-4 z-10 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+    <article className="relative overflow-hidden rounded-[1.75rem] border border-[#173a31]/10 bg-white/90 p-3 shadow-[0_30px_80px_rgba(28,72,60,0.13)] backdrop-blur sm:p-4">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[1.2rem] border border-black/5 bg-[#e7eee9]">
+        <div className="product-card-grid pointer-events-none absolute inset-0 opacity-35" />
+        <div className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-md border border-black/10 bg-[#f4f2ea]/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#1c2925] shadow-sm backdrop-blur sm:text-[11px]">
+          <span className="size-1.5 rounded-full bg-[#ef7548]" />
           Produk pilihan
+        </div>
+
+        <div className="absolute bottom-4 right-4 z-10 rounded-md bg-[#0b1513] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+          0{activeIndex + 1} / 0{products.length}
         </div>
 
         <img
           src={activeProduct.image}
           alt={activeProduct.title}
           className={[
-            'size-full object-contain p-8 transition duration-500',
-            isVisible ? 'scale-100 opacity-100' : 'scale-[0.98] opacity-0',
+            'relative z-[1] size-full object-contain p-10 transition duration-500 sm:p-12',
+            isVisible
+              ? 'rotate-0 scale-100 opacity-100'
+              : '-rotate-2 scale-[0.94] opacity-0',
           ].join(' ')}
-          loading="lazy"
+          loading="eager"
           decoding="async"
+          onError={(event) => {
+            const image = event.currentTarget;
+
+            image.onerror = null;
+            image.src = '/assets/images/robotic.svg';
+          }}
         />
       </div>
 
-      <div className="px-2 pb-2 pt-5">
+      <div className="px-2 pb-2 pt-5 sm:px-3">
         <div
           className={[
             'transition duration-500',
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0',
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0',
           ].join(' ')}
         >
-          <div className="flex items-start justify-between gap-4">
-            <h2 className="line-clamp-2 text-xl font-semibold leading-7 text-slate-900">
+          <div className="flex items-start justify-between gap-5">
+            <h2 className="line-clamp-2 text-xl font-bold leading-7 -tracking-wide text-[#10251f] sm:text-2xl">
               {activeProduct.title}
             </h2>
 
             {typeof activeProduct.price === 'number' ? (
-              <p className="shrink-0 text-sm font-semibold text-primary-700">
+              <p className="shrink-0 rounded-md bg-[#b8e8d8] px-3 py-1.5 text-xs font-bold text-[#10251f]">
                 {formatIDR(activeProduct.price)}
               </p>
             ) : null}
           </div>
 
-          <p className="mt-2 line-clamp-2 min-h-12 text-sm leading-6 text-slate-500">
+          <p className="mt-2 line-clamp-2 min-h-12 text-sm leading-6 text-[#527067]">
             {activeProduct.description}
           </p>
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+        <div className="mt-5 flex items-center justify-between border-t border-[#173a31]/10 pt-4">
           <a
             href="#product-list"
-            className="text-sm font-semibold text-slate-700 transition hover:text-primary-700"
+            className="group inline-flex items-center gap-2 text-sm font-semibold text-[#10251f] transition hover:text-[#28735f]"
           >
-            Lihat di katalog
+            Jelajahi katalog
+            <span className="transition-transform group-hover:translate-x-1">
+              →
+            </span>
           </a>
 
           <div className="flex gap-1.5" aria-label="Rotasi produk">
@@ -183,8 +200,8 @@ const RotatingProductHighlight = () => {
                 className={[
                   'h-1.5 rounded-full transition-all duration-300',
                   index === activeIndex
-                    ? 'w-5 bg-slate-800'
-                    : 'w-1.5 bg-slate-300',
+                    ? 'w-6 bg-[#ef7548]'
+                    : 'w-1.5 bg-[#173a31]/15',
                 ].join(' ')}
               />
             ))}

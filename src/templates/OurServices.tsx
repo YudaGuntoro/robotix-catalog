@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import { Section } from '@/layout/Section';
 
 type ApiService = {
-  'Service Name': string;
-  Description: string;
-  Image: string;
+  'Service Name'?: string;
+  ServiceName?: string;
+  Description?: string;
+  Image?: string;
   No?: number;
   row_number?: number;
 };
@@ -20,17 +21,18 @@ type ServiceItem = {
 };
 
 const accentPalette = [
-  'bg-amber-50',
-  'bg-blue-50',
-  'bg-rose-50',
-  'bg-emerald-50',
-  'bg-violet-50',
+  'bg-[#dff3eb]',
+  'bg-[#fff0e8]',
+  'bg-[#e8eef8]',
+  'bg-[#f3eadf]',
+  'bg-[#e9e5f5]',
 ] as const;
+
+const whatsappNumber = '6285157742849';
 
 const OurServices = () => {
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const hasFewItems = services.length <= 3;
 
   useEffect(() => {
     let isMounted = true;
@@ -53,8 +55,11 @@ const OurServices = () => {
         const data: ApiService[] = await response.json();
         const mappedServices = (data || [])
           .map((service, index) => ({
-            title: service['Service Name']?.trim(),
-            description: service.Description,
+            title:
+              service['Service Name']?.trim() ||
+              service.ServiceName?.trim() ||
+              '',
+            description: service.Description?.trim() || '',
             image: service.Image || '/assets/images/robotic.svg',
             accent:
               accentPalette[index % accentPalette.length] ?? 'bg-slate-50',
@@ -84,130 +89,219 @@ const OurServices = () => {
 
   if (loading) {
     content = (
-      <div className="mx-auto mt-14 grid max-w-6xl gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, index) => (
-          <div key={index} className="text-center">
-            <div className="mx-auto size-[72px] animate-pulse rounded-[24px] bg-slate-100" />
-            <div className="mx-auto mt-5 h-7 w-40 animate-pulse rounded-full bg-slate-100" />
-            <div className="mx-auto mt-3 h-4 w-full max-w-sm animate-pulse rounded-full bg-slate-100" />
-            <div className="mx-auto mt-2 h-4 w-5/6 max-w-xs animate-pulse rounded-full bg-slate-100" />
+          <div
+            key={index}
+            className="overflow-hidden rounded-[28px] border border-[#173a31]/10 bg-white p-3"
+          >
+            <div className="aspect-[16/10] animate-pulse rounded-[20px] bg-[#e6eee9]" />
+            <div className="px-2 pb-4 pt-5">
+              <div className="h-7 w-2/3 animate-pulse rounded-full bg-[#dfe8e3]" />
+              <div className="mt-4 h-4 w-full animate-pulse rounded-full bg-[#edf2ef]" />
+              <div className="mt-2 h-4 w-4/5 animate-pulse rounded-full bg-[#edf2ef]" />
+            </div>
           </div>
         ))}
       </div>
     );
   } else if (services.length > 0) {
     content = (
-      <div
-        className={[
-          'mx-auto mt-14 grid gap-10',
-          hasFewItems ? 'max-w-4xl justify-center' : 'max-w-6xl',
-        ].join(' ')}
-        style={{
-          gridTemplateColumns: hasFewItems
-            ? 'repeat(auto-fit, minmax(260px, 320px))'
-            : 'repeat(auto-fit, minmax(220px, 1fr))',
-        }}
-      >
-        {services.map((service, index) => (
-          <article key={`${service.title}-${index}`} className="text-center">
-            <div
-              className={[
-                'mx-auto flex size-[72px] items-center justify-center overflow-hidden rounded-[24px] ring-1 ring-slate-100',
-                service.accent,
-              ].join(' ')}
-            >
-              <img
-                src={service.image}
-                alt={service.title}
-                className="size-12 object-contain"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((service, index) => {
+          const message = encodeURIComponent(
+            `Halo Admin Robotix.ID, saya tertarik dengan layanan ${service.title}. Bisa minta info lebih lanjut?`,
+          );
 
-            <h3 className="mt-5 text-2xl font-medium tracking-tight text-slate-900">
-              {service.title}
-            </h3>
-            <p className="mx-auto mt-3 max-w-sm text-base leading-8 text-slate-600">
-              {service.description}
-            </p>
-          </article>
-        ))}
+          return (
+            <article
+              key={`${service.title}-${index}`}
+              className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-[#173a31]/10 bg-white p-3 shadow-[0_18px_50px_rgba(23,58,49,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(23,58,49,0.1)]"
+            >
+              <div
+                className={[
+                  'relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-[20px]',
+                  service.accent,
+                ].join(' ')}
+              >
+                <div className="service-card-grid pointer-events-none absolute inset-0 opacity-50" />
+
+                <span className="absolute left-4 top-4 rounded-full border border-[#173a31]/10 bg-white/75 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#34554c] backdrop-blur">
+                  0{index + 1}
+                </span>
+
+                <span className="absolute right-4 top-4 size-2 rounded-full bg-[#ef7548] shadow-[0_0_0_5px_rgba(239,117,72,0.13)]" />
+
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="relative z-[1] size-28 object-contain transition duration-500 group-hover:scale-105 sm:size-32"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(event) => {
+                    const image = event.currentTarget;
+
+                    image.onerror = null;
+                    image.src = '/assets/images/robotic.svg';
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-1 flex-col px-2 pb-3 pt-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#28735f]">
+                  Managed service
+                </p>
+                <h3 className="mt-2 text-2xl font-bold tracking-[-0.035em] text-[#10251f]">
+                  {service.title}
+                </h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#527067]">
+                  {service.description}
+                </p>
+
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${message}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 flex items-center justify-between border-t border-[#173a31]/10 pt-4 text-sm font-bold text-[#10251f] transition group-hover:text-[#28735f]"
+                >
+                  Tanya layanan
+                  <span className="inline-flex size-8 items-center justify-center rounded-full bg-[#f0f5f2] transition duration-300 group-hover:translate-x-1 group-hover:bg-[#dff3eb]">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="size-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14m-6-6 6 6-6 6" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </article>
+          );
+        })}
       </div>
     );
   } else {
     content = (
-      <div className="mx-auto mt-14 max-w-2xl rounded-[28px] border border-slate-200 bg-white/80 px-6 py-10 text-center shadow-sm">
-        <p className="text-lg font-bold text-slate-900">
-          Layanan belum tersedia
+      <div className="mt-10 rounded-[28px] border border-dashed border-[#173a31]/20 bg-white/65 px-6 py-12 text-center">
+        <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-[#dff3eb] text-[#28735f]">
+          <svg
+            viewBox="0 0 24 24"
+            className="size-5"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M7 3v4m10-4v4M6 11h12v9H6z" />
+          </svg>
+        </div>
+        <p className="mt-4 text-lg font-bold text-[#10251f]">
+          Layanan sedang diperbarui
         </p>
-        <p className="mt-2 text-sm leading-7 text-slate-600">
-          Data layanan dari n8n belum tersedia saat ini. Silakan cek lagi
-          sebentar lagi atau hubungi admin untuk informasi lebih lanjut.
+        <p className="mx-auto mt-2 max-w-lg text-sm leading-7 text-[#527067]">
+          Hubungi admin untuk mendiskusikan kebutuhan hosting dan automation
+          Anda.
         </p>
       </div>
     );
   }
 
   return (
-    <Section yPadding="py-16 md:py-24">
-      <div className="rounded-[36px] border border-slate-200/80 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-6 py-12 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:px-10 md:px-14 md:py-16">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white/80 px-4 py-1.5 text-[11px] font-semibold text-primary-700 shadow-sm backdrop-blur sm:text-xs">
-            <svg
-              viewBox="0 0 24 24"
-              className="size-4"
-              fill="currentColor"
-              aria-hidden
-            >
-              <path d="M7 3a2 2 0 0 0-2 2v2h14V5a2 2 0 0 0-2-2H7Z" />
-              <path d="M5 10v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9H5Z" />
-            </svg>
-            Layanan Self Hosting
+    <section id="hosting-services" className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-[#f3f7f3] to-transparent" />
+
+      <Section yPadding="py-16 md:py-24">
+        <div className="relative overflow-hidden rounded-[36px] border border-[#173a31]/10 bg-[#fbfaf6] px-5 py-8 shadow-[0_20px_70px_rgba(23,58,49,0.07)] sm:px-8 sm:py-10 md:px-12 md:py-14">
+          <div className="pointer-events-none absolute -right-32 -top-32 size-80 rounded-full bg-[#b8e8d8]/35 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-40 -left-24 size-80 rounded-full bg-[#ffd8c7]/30 blur-3xl" />
+
+          <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#28735f] sm:text-xs">
+                <span className="h-px w-8 bg-[#ef7548]" />
+                Solusi hosting
+              </div>
+
+              <h2 className="mt-5 text-4xl font-extrabold leading-[1.04] -tracking-wider text-[#10251f] sm:text-5xl md:text-6xl">
+                Sistem lebih rapi,{' '}
+                <span className="font-serif font-normal italic tracking-[-0.035em] text-[#28735f]">
+                  kerja jadi lebih ringan.
+                </span>
+              </h2>
+
+              <p className="mt-5 max-w-2xl text-base leading-8 text-[#527067] sm:text-lg">
+                Hosting aplikasi, monitoring, dan workflow automation yang
+                disiapkan sesuai kebutuhan—tanpa bikin tim Anda sibuk mengurus
+                hal teknis setiap hari.
+              </p>
+            </div>
+
+            <div className="rounded-[24px] border border-[#173a31]/10 bg-white/80 p-5 backdrop-blur">
+              <div className="flex items-center gap-3">
+                <span className="relative flex size-2.5">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                  <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
+                </span>
+                <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#34554c]">
+                  Siap diskusi
+                </p>
+              </div>
+
+              <p className="mt-4 text-sm leading-6 text-[#527067]">
+                Ceritakan kebutuhan sistem Anda. Kami bantu pilih setup yang
+                masuk akal untuk mulai.
+              </p>
+
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                  'Halo Admin Robotix.ID, saya ingin berdiskusi tentang layanan hosting dan automation.',
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-5 inline-flex w-full items-center justify-between rounded-xl bg-[#28735f] px-5 py-3.5 text-sm font-bold text-white shadow-[0_12px_28px_rgba(40,115,95,0.18)] transition hover:-translate-y-0.5 hover:bg-[#205f4f]"
+              >
+                Diskusi kebutuhan
+                <svg
+                  viewBox="0 0 24 24"
+                  className="size-4 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+              </a>
+            </div>
           </div>
 
-          <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl md:text-5xl">
-            <span className="bg-gradient-to-r from-primary-600 via-fuchsia-500 to-emerald-500 bg-clip-text text-transparent">
-              Solusi Hosting & Automation Untuk Bisnis Anda
-            </span>
-          </h2>
+          <div className="relative mt-10 flex flex-wrap gap-2 border-y border-[#173a31]/10 py-4 text-[10px] font-bold uppercase tracking-[0.15em] text-[#527067] sm:gap-3 sm:text-xs">
+            {['Self hosting', 'Monitoring', 'Automation', 'Integration'].map(
+              (label) => (
+                <span
+                  key={label}
+                  className="rounded-full border border-[#173a31]/10 bg-white/70 px-3 py-2"
+                >
+                  {label}
+                </span>
+              ),
+            )}
+          </div>
 
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 sm:text-lg md:text-xl">
-            Temukan layanan hosting aplikasi, dashboard monitoring, automation,
-            dan integrasi workflow yang siap bantu sistem Anda tumbuh lebih
-            stabil dan efisien.
-          </p>
-
-          <div className="mx-auto mt-5 h-1.5 w-28 rounded-full bg-gradient-to-r from-primary-600 via-fuchsia-500 to-emerald-500" />
-
-          <a
-            href="https://wa.me/6285157742849?text=Halo%20Admin%20Robotix.ID,%20saya%20ingin%20tanya%20layanan%20self%20hosting."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-6 inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-green-500 via-emerald-500 to-emerald-600 px-5 py-3.5 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(16,185,129,0.24)] ring-1 ring-white/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_52px_rgba(16,185,129,0.32)]"
-          >
-            <svg
-              viewBox="0 0 32 32"
-              aria-hidden="true"
-              className="size-5 flex-none text-white"
-              fill="currentColor"
-            >
-              <path d="M19.11 17.27c-.29-.14-1.69-.83-1.95-.93-.26-.1-.45-.14-.64.14-.19.29-.74.93-.9 1.12-.17.19-.33.21-.62.07-.29-.14-1.21-.45-2.31-1.45-.85-.76-1.43-1.7-1.6-1.98-.17-.29-.02-.45.12-.59.12-.12.29-.31.43-.48.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.48-.17 0-.36-.02-.55-.02-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43 0 1.43 1.03 2.81 1.17 3 .14.19 2.02 3.08 4.89 4.32 2.87 1.24 2.87.83 3.39.79.52-.05 1.69-.69 1.93-1.36.24-.67.24-1.24.17-1.36-.07-.12-.24-.19-.5-.31zM16 3.2c-7.07 0-12.8 5.73-12.8 12.8 0 2.25.59 4.37 1.62 6.2L3.2 28.8l6.8-1.58c1.78.97 3.82 1.53 5.99 1.53 7.07 0 12.8-5.73 12.8-12.8S23.07 3.2 16 3.2zM16 26.14c-1.99 0-3.84-.6-5.37-1.62l-.38-.25-4.04.94.86-3.94-.26-.4a10.67 10.67 0 0 1-1.66-5.67c0-5.9 4.8-10.7 10.7-10.7s10.7 4.8 10.7 10.7-4.8 10.7-10.7 10.7z" />
-            </svg>
-            <span className="flex flex-col items-start leading-none">
-              <span className="text-sm font-semibold sm:text-base">
-                Tanya Admin
-              </span>
-              <span className="mt-1 text-[11px] font-medium text-white/85">
-                Untuk layanan self host
-              </span>
-            </span>
-          </a>
+          <div className="relative">{content}</div>
         </div>
-
-        {content}
-      </div>
-    </Section>
+      </Section>
+    </section>
   );
 };
 

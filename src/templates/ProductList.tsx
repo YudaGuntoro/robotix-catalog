@@ -124,11 +124,9 @@ const getProductBadge = (p: ApiProduct): ProductBadge | null => {
 };
 
 const badgeToneStyles: Record<BadgeTone, string> = {
-  new: 'border-sky-200/80 bg-[linear-gradient(135deg,#dbeafe,#bfdbfe,#c7d2fe)] text-sky-900 shadow-[0_10px_24px_rgba(96,165,250,0.16)]',
-  preorder:
-    'border-emerald-200/80 bg-[linear-gradient(135deg,#dcfce7,#bbf7d0,#ccfbf1)] text-emerald-900 shadow-[0_10px_24px_rgba(52,211,153,0.16)]',
-  restock:
-    'border-rose-200/80 bg-[linear-gradient(135deg,#ffe4e6,#fecdd3,#ffedd5)] text-rose-900 shadow-[0_10px_24px_rgba(251,113,133,0.18)]',
+  new: 'border-sky-200 bg-sky-50/95 text-sky-800',
+  preorder: 'border-emerald-200 bg-emerald-50/95 text-emerald-800',
+  restock: 'border-rose-200 bg-rose-50/95 text-rose-800',
 };
 const badgeDotStyles: Record<BadgeTone, string> = {
   new: 'bg-sky-500 shadow-[0_0_14px_rgba(14,165,233,0.35)]',
@@ -156,17 +154,14 @@ const StatusBadge = ({
   return (
     <div
       className={[
-        'group/badge relative isolate items-center gap-2 overflow-hidden rounded-full border backdrop-blur-xl',
+        'group/badge relative isolate items-center gap-2 overflow-hidden rounded-lg border backdrop-blur-xl',
         isOverlay
           ? 'pointer-events-none absolute left-3 top-3 z-20 inline-flex sm:left-4 sm:top-4'
           : 'inline-flex whitespace-nowrap',
-        'ring-1 ring-white/50',
-        'before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(180deg,rgba(255,255,255,0.45),rgba(255,255,255,0.12)_40%,transparent_72%)]',
-        'after:pointer-events-none after:absolute after:inset-[1px] after:rounded-full after:border after:border-white/30',
         'transition duration-300',
         isMd
-          ? 'px-3.5 py-2 shadow-[0_22px_50px_rgba(15,23,42,0.2)]'
-          : 'px-2.5 py-1 shadow-[0_16px_36px_rgba(15,23,42,0.16)]',
+          ? 'px-3.5 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.12)]'
+          : 'px-2.5 py-1.5 shadow-[0_8px_20px_rgba(15,23,42,0.1)]',
         badgeToneStyles[badge.tone],
       ].join(' ')}
     >
@@ -523,18 +518,18 @@ const ProductList = () => {
 
   if (loading) {
     content = (
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
-            className="overflow-hidden rounded-[28px] border border-white/60 bg-white/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] backdrop-blur"
+            className="overflow-hidden rounded-[24px] border border-[#173a31]/10 bg-white shadow-[0_14px_40px_rgba(23,58,49,0.06)]"
           >
-            <div className="aspect-[4/3] w-full animate-pulse bg-gray-200" />
+            <div className="m-2 aspect-[4/3] animate-pulse rounded-[18px] bg-[#e8efeb]" />
             <div className="p-4">
-              <div className="h-4 w-2/3 animate-pulse rounded-full bg-gray-200" />
-              <div className="mt-3 h-5 w-5/6 animate-pulse rounded-full bg-gray-200" />
-              <div className="mt-3 h-3 w-full animate-pulse rounded-full bg-gray-200" />
-              <div className="mt-2 h-3 w-4/5 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-4 w-2/3 animate-pulse rounded-full bg-[#dce7e1]" />
+              <div className="mt-3 h-5 w-5/6 animate-pulse rounded-full bg-[#dce7e1]" />
+              <div className="mt-3 h-3 w-full animate-pulse rounded-full bg-[#edf2ef]" />
+              <div className="mt-2 h-3 w-4/5 animate-pulse rounded-full bg-[#edf2ef]" />
             </div>
           </div>
         ))}
@@ -548,11 +543,11 @@ const ProductList = () => {
     );
   } else if (filteredAndSortedCards.length === 0) {
     content = (
-      <div className="rounded-[28px] border border-gray-200 bg-white/90 px-6 py-12 text-center shadow-sm">
-        <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-gray-100">
+      <div className="rounded-[28px] border border-dashed border-[#173a31]/20 bg-white/75 px-6 py-14 text-center">
+        <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-[#dff3eb]">
           <svg
             viewBox="0 0 24 24"
-            className="size-6 text-gray-500"
+            className="size-6 text-[#28735f]"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -563,10 +558,10 @@ const ProductList = () => {
           </svg>
         </div>
 
-        <h3 className="mt-4 text-lg font-bold text-gray-900">
+        <h3 className="mt-4 text-lg font-bold text-[#10251f]">
           Produk tidak ditemukan
         </h3>
-        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-600">
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#527067]">
           Coba gunakan kata kunci lain atau ubah urutan pencarian untuk melihat
           produk yang tersedia.
         </p>
@@ -575,26 +570,29 @@ const ProductList = () => {
   } else {
     content = (
       <div
-        className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5"
+        className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 xl:grid-cols-4"
         role="list"
         aria-label="Daftar produk"
       >
-        {filteredAndSortedCards.map((c) => (
+        {filteredAndSortedCards.map((c, index) => (
           <button
             key={c.title}
             type="button"
             onClick={() => openProductDetail(c)}
-            className="group relative flex h-full flex-col overflow-hidden rounded-[28px] border border-white/70 bg-white/90 text-left shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(15,23,42,0.14)] focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+            className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#173a31]/10 bg-white text-left shadow-[0_14px_40px_rgba(23,58,49,0.07)] transition duration-300 hover:-translate-y-1.5 hover:border-[#28735f]/20 hover:shadow-[0_24px_60px_rgba(23,58,49,0.12)] focus:outline-none focus:ring-2 focus:ring-[#28735f]/25"
             title={`Lihat detail ${c.title}`}
           >
-            <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-primary-100/40 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
-
-            <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+            <div className="relative m-2 aspect-[4/3] overflow-hidden rounded-[18px] bg-[#eaf1ed]">
               {c.badge ? (
                 <StatusBadge badge={c.badge} size="sm" placement="overlay" />
               ) : null}
 
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/10 via-transparent to-slate-950/5 opacity-90" />
+              <div className="product-list-card-grid pointer-events-none absolute inset-0 z-[1] opacity-40" />
+              <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-[#10251f]/15 via-transparent to-white/5" />
+
+              <span className="absolute bottom-3 right-3 z-10 rounded-md bg-[#10251f]/80 px-2 py-1 text-[9px] font-bold tracking-[0.14em] text-white backdrop-blur">
+                {String(index + 1).padStart(2, '0')}
+              </span>
 
               <Image
                 loader={passthroughImageLoader}
@@ -603,28 +601,36 @@ const ProductList = () => {
                 alt={c.title}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 20vw"
-                className="object-cover transition duration-500 group-hover:scale-[1.06]"
+                className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                onError={(event) => {
+                  const image = event.currentTarget;
+
+                  image.onerror = null;
+                  image.src = '/assets/images/robotic.svg';
+                }}
               />
             </div>
 
-            <div className="flex flex-1 flex-col p-4">
-              <p className="text-sm font-semibold tracking-tight text-primary-600 sm:text-[15px]">
+            <div className="flex flex-1 flex-col px-4 pb-4 pt-3 sm:px-5 sm:pb-5">
+              <p className="text-xs font-bold tracking-tight text-[#28735f] sm:text-sm">
                 {typeof c.price === 'number'
                   ? formatIDR(c.price)
                   : 'Harga belum tersedia'}
               </p>
 
-              <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-snug tracking-tight text-gray-900 sm:text-base">
+              <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-snug tracking-[-0.02em] text-[#10251f] sm:text-lg">
                 {c.title}
               </h3>
 
-              <p className="mt-2 line-clamp-3 text-xs leading-5 text-gray-500 sm:text-sm">
+              <p className="mt-2 line-clamp-3 text-xs leading-5 text-[#607a72] sm:text-sm sm:leading-6">
                 {c.desc}
               </p>
 
-              <div className="mt-4 flex items-center gap-2 text-[11px] font-medium text-gray-400 sm:text-xs">
-                <span className="inline-block size-2 rounded-full bg-emerald-400" />
-                Klik untuk lihat detail
+              <div className="mt-auto flex items-center justify-between border-t border-[#173a31]/10 pt-4 text-[10px] font-bold uppercase tracking-widest text-[#527067] sm:mt-5 sm:text-[11px]">
+                Lihat detail
+                <span className="inline-flex size-7 items-center justify-center rounded-full bg-[#f0f5f2] text-[#28735f] transition duration-300 group-hover:translate-x-1 group-hover:bg-[#dff3eb]">
+                  →
+                </span>
               </div>
             </div>
           </button>
@@ -648,43 +654,42 @@ const ProductList = () => {
     : '#';
 
   return (
-    <div>
-      <Section yPadding="py-6">
-        <div className="mx-auto max-w-screen-xl px-3 sm:px-6">
-          <header className="mb-8 text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white/80 px-4 py-1.5 text-[11px] font-semibold text-primary-700 shadow-sm backdrop-blur sm:text-xs">
-              <svg
-                viewBox="0 0 24 24"
-                className="size-4"
-                fill="currentColor"
-                aria-hidden
-              >
-                <path d="M4 6.75h16M4 12h16M4 17.25h10" />
-              </svg>
-              Katalog Produk
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-white to-transparent" />
+
+      <Section yPadding="py-16 md:py-24">
+        <div className="relative overflow-hidden rounded-[36px] border border-[#173a31]/10 bg-[#eef4f0] px-4 py-8 shadow-[0_20px_70px_rgba(23,58,49,0.07)] sm:px-8 sm:py-10 md:px-12 md:py-14">
+          <div className="pointer-events-none absolute -right-32 -top-36 size-96 rounded-full bg-[#b8e8d8]/30 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-44 -left-28 size-96 rounded-full bg-[#ffd8c7]/25 blur-3xl" />
+
+          <header className="relative mb-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#28735f] sm:text-xs">
+                <span className="h-px w-8 bg-[#ef7548]" />
+                Katalog Produk
+              </div>
+
+              <h2 className="mt-5 text-4xl font-extrabold leading-[1.04] -tracking-wider text-[#10251f] sm:text-5xl md:text-6xl">
+                Temukan produk{' '}
+                <span className="font-serif font-normal italic tracking-[-0.035em] text-[#28735f]">
+                  yang Anda butuhkan.
+                </span>
+              </h2>
             </div>
 
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl md:text-5xl">
-              <span className="bg-gradient-to-r from-primary-600 via-fuchsia-500 to-emerald-500 bg-clip-text text-transparent">
-                Temukan Produk Yang Anda Butuhkan
-              </span>
-            </h2>
-
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 sm:text-lg md:text-xl">
+            <p className="max-w-xl text-base leading-8 text-[#527067] sm:text-lg">
               Cari komponen, modul, dan perangkat pilihan Robotix.ID dengan
               filter yang lebih cepat untuk bantu kebutuhan proyek dan
               pembelajaran Anda.
             </p>
-
-            <div className="mx-auto mt-5 h-1.5 w-28 rounded-full bg-gradient-to-r from-primary-600 via-fuchsia-500 to-emerald-500" />
           </header>
 
           <div
             id="product-list"
-            className="mb-6 flex scroll-mt-24 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+            className="relative mb-5 flex scroll-mt-24 flex-col gap-3 rounded-[24px] border border-[#173a31]/10 bg-white/80 p-3 shadow-[0_14px_36px_rgba(23,58,49,0.06)] backdrop-blur sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="relative w-full sm:max-w-xl">
-              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#527067]">
                 <svg
                   viewBox="0 0 24 24"
                   className="size-5"
@@ -703,7 +708,7 @@ const ProductList = () => {
                 placeholder="Cari produk, modul, sensor, atau nama item..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-2xl border border-gray-200 bg-white/95 py-3 pl-12 pr-4 text-sm text-gray-900 shadow-sm outline-none transition duration-300 placeholder:text-gray-400 focus:border-primary-400 focus:ring-4 focus:ring-primary-100"
+                className="w-full rounded-2xl border border-[#173a31]/10 bg-[#f5f8f6] py-3.5 pl-12 pr-4 text-sm text-[#10251f] outline-none transition duration-300 placeholder:text-[#789087] focus:border-[#28735f]/40 focus:bg-white focus:ring-4 focus:ring-[#dff3eb]"
               />
             </div>
 
@@ -711,7 +716,7 @@ const ProductList = () => {
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="w-full rounded-2xl border border-gray-200 bg-white/95 px-4 py-3 text-sm font-medium text-gray-700 shadow-sm outline-none transition duration-300 focus:border-primary-400 focus:ring-4 focus:ring-primary-100"
+                className="w-full rounded-2xl border border-[#173a31]/10 bg-[#f5f8f6] px-4 py-3.5 text-sm font-semibold text-[#34554c] outline-none transition duration-300 focus:border-[#28735f]/40 focus:bg-white focus:ring-4 focus:ring-[#dff3eb]"
               >
                 <option value="default">Urutkan produk</option>
                 <option value="price-asc">Harga termurah</option>
@@ -722,10 +727,10 @@ const ProductList = () => {
             </div>
           </div>
 
-          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm font-medium text-gray-600">
+          <div className="relative mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-medium text-[#527067]">
               Menampilkan{' '}
-              <span className="font-bold text-gray-900">
+              <span className="font-bold text-[#10251f]">
                 {filteredAndSortedCards.length}
               </span>{' '}
               produk
@@ -738,14 +743,14 @@ const ProductList = () => {
                   setSearch('');
                   setSort('default');
                 }}
-                className="hover:bg-primary-50 inline-flex w-fit items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 shadow-sm transition hover:border-primary-200 hover:text-primary-700"
+                className="inline-flex w-fit items-center justify-center rounded-full border border-[#173a31]/10 bg-white px-4 py-2 text-xs font-semibold text-[#34554c] shadow-sm transition hover:border-[#28735f]/25 hover:bg-[#dff3eb] hover:text-[#205f4f]"
               >
                 Reset filter
               </button>
             )}
           </div>
 
-          {content}
+          <div className="relative">{content}</div>
 
           <div className="pb-[max(env(safe-area-inset-bottom),_0px)]" />
         </div>

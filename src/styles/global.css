@@ -8,6 +8,27 @@ html {
   scroll-behavior: smooth;
 }
 
+.product-card-grid {
+  background-image:
+    linear-gradient(rgba(11, 21, 19, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 21, 19, 0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.service-card-grid {
+  background-image:
+    linear-gradient(rgba(23, 58, 49, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 58, 49, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.product-list-card-grid {
+  background-image:
+    linear-gradient(rgba(23, 58, 49, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 58, 49, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 @keyframes floating-bob {
   0%,
   100% {
