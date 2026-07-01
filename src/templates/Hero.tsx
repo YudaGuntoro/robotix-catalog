@@ -43,19 +43,14 @@ const Hero = () => {
           <nav className="flex items-center justify-between border-b border-[#173a31]/10 pb-5">
             <a
               href="#hero"
-              className="group inline-flex items-center gap-3 text-[#10251f]"
+              className="group inline-flex items-center"
               aria-label="Robotix.ID, kembali ke atas"
             >
-              <span className="flex size-10 items-center justify-center overflow-hidden rounded-lg border border-[#173a31]/10 bg-white p-1.5 shadow-sm transition-transform group-hover:-rotate-3">
-                <img
-                  src="/assets/images/robotic.svg"
-                  alt=""
-                  className="size-full object-contain"
-                />
-              </span>
-              <span className="text-lg font-extrabold tracking-[-0.035em]">
-                ROBOTIX<span className="text-[#28735f]">.ID</span>
-              </span>
+              <img
+                src="/assets/images/robotic.svg"
+                alt="Robotix.ID — Create Your Own Robot With Us"
+                className="h-auto w-[158px] transition-transform duration-300 group-hover:scale-[1.02] sm:w-[180px]"
+              />
             </a>
 
             <div className="hidden items-center gap-8 text-sm font-medium text-[#173a31]/60 sm:flex">
